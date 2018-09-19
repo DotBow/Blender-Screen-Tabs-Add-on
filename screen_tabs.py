@@ -92,12 +92,20 @@ class ScreenTabsPrefs(AddonPreferences):
 		default = -1,
 		min = -1,)
 
+	screen_text_scale = FloatProperty(
+		name = 'Screen Tab Text Scale',
+		description = "Maximum scale of per screen tab",
+		default = 0,
+		min = 0,
+		soft_max = 2,)
+
 	def draw(self, context):
 		layout = self.layout
 		layout.prop(self, 'menu_draw_type')
 		layout.prop(self, 'stats_draw_type')
 		layout.prop(self, 'scene_block_width')
 		layout.prop(self, 'screen_text_length')
+		layout.prop(self, 'screen_text_scale')
 
 
 class TabProps(bpy.types.PropertyGroup):
@@ -293,11 +301,10 @@ class INFO_HT_header(Header):
 					row.operator('scene.add_tab', text = '', icon='ZOOMIN')
 					row.alert = False
 				else:
+					row.scale_x =  addon_prefs.screen_text_scale
+
 					if (addon_prefs.screen_text_length >= 0):
-						display_name	=	""
-						for i, a in enumerate(name):
-							if (i >= addon_prefs.screen_text_length):	break
-							display_name	+=	a
+						display_name	=	name[0 : addon_prefs.screen_text_length]
 					else:
 						display_name	=	name
 
