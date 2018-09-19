@@ -41,6 +41,7 @@ stats_icons = OrderedDict([
 	('Edges:', 'EDGESEL'),
 	('Faces:', 'FACESEL'),
 	('Tris:', 'MOD_TRIANGULATE'),
+	('Bones:', 'ARMATURE_DATA'),
 	('Objects:', 'OUTLINER_OB_GROUP_INSTANCE'),
 	('Lamps:', 'LAMP_SUN'),
 	('Mem:', 'DISK_DRIVE')])
@@ -85,11 +86,18 @@ class ScreenTabsPrefs(AddonPreferences):
 		min = 0.5,
 		max = 1.0)
 
+	screen_text_length = IntProperty(
+		name = 'Screen Tab Text Length',
+		description = "Maximum number of characters to display per screen tab",
+		default = -1,
+		min = -1,)
+
 	def draw(self, context):
 		layout = self.layout
 		layout.prop(self, 'menu_draw_type')
 		layout.prop(self, 'stats_draw_type')
 		layout.prop(self, 'scene_block_width')
+		layout.prop(self, 'screen_text_length')
 
 
 class TabProps(bpy.types.PropertyGroup):
@@ -285,10 +293,18 @@ class INFO_HT_header(Header):
 					row.operator('scene.add_tab', text = '', icon='ZOOMIN')
 					row.alert = False
 				else:
-					if is_active:
-						row.prop(scene, 'active_tab', text = name, icon = icon, toggle = True)
+					if (addon_prefs.screen_text_length >= 0):
+						display_name	=	""
+						for i, a in enumerate(name):
+							if (i >= addon_prefs.screen_text_length):	break
+							display_name	+=	a
 					else:
-						row.operator('scene.set_tab', text = name, icon = icon).name = name
+						display_name	=	name
+
+					if is_active:
+						row.prop(scene, 'active_tab', text = display_name, icon = icon, toggle = True)
+					else:
+						row.operator('scene.set_tab', text = display_name, icon = icon).name = name
 
 		### Draw render engine ###
 		layout.separator()
@@ -339,6 +355,10 @@ class INFO_HT_header(Header):
 					if stat_value and scene.stat_flags[i]:
 						if key == 'Mem:':
 							stat_value = str(round(float(stat_value[:-1]))) + 'M'
+						if key == 'Verts:' and context.mode == 'EDIT_ARMATURE':
+							val	=	'BONE_DATA'
+						if key == 'Bones:' and context.mode == 'POSE':
+							val	=	'BONE_DATA'
 
 						row.label(stat_value, icon = val)
 
