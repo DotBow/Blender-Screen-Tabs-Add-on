@@ -95,9 +95,11 @@ class ScreenTabsPrefs(AddonPreferences):
 	screen_text_scale = FloatProperty(
 		name = 'Screen Tab Text Scale',
 		description = "Maximum scale of per screen tab",
-		default = 0,
+		default = 100,
+		subtype = 'PERCENTAGE',
 		min = 0,
-		soft_max = 2,)
+		soft_min = 20,
+		soft_max = 200,)
 
 	def draw(self, context):
 		layout = self.layout
@@ -303,7 +305,7 @@ class INFO_HT_header(Header):
 				else:
 					if (addon_prefs.screen_text_length == 0 and icon == 'NONE'):
 						icon = 'BLANK1'
-					row.scale_x = addon_prefs.screen_text_scale
+					row.scale_x = addon_prefs.screen_text_scale * 0.01
 
 					if (addon_prefs.screen_text_length >= 0):
 						name = name[0 : addon_prefs.screen_text_length]
