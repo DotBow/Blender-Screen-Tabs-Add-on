@@ -41,6 +41,7 @@ stats_icons = OrderedDict([
 	('Edges:', 'EDGESEL'),
 	('Faces:', 'FACESEL'),
 	('Tris:', 'MOD_TRIANGULATE'),
+	('Bones:', 'ARMATURE_DATA'),
 	('Objects:', 'OUTLINER_OB_GROUP_INSTANCE'),
 	('Lamps:', 'LAMP_SUN'),
 	('Mem:', 'DISK_DRIVE')])
@@ -339,6 +340,10 @@ class INFO_HT_header(Header):
 					if stat_value and scene.stat_flags[i]:
 						if key == 'Mem:':
 							stat_value = str(round(float(stat_value[:-1]))) + 'M'
+						if key == 'Verts:' and context.mode == 'EDIT_ARMATURE':
+							val	=	'BONE_DATA'
+						if key == 'Bones:' and context.mode == 'POSE':
+							val	=	'BONE_DATA'
 
 						row.label(stat_value, icon = val)
 
