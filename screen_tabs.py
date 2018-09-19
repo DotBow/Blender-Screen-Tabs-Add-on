@@ -301,6 +301,8 @@ class INFO_HT_header(Header):
 					row.operator('scene.add_tab', text = '', icon='ZOOMIN')
 					row.alert = False
 				else:
+					if (addon_prefs.screen_text_length == 0 and icon == 'NONE'):
+						icon = 'BLANK1'
 					row.scale_x =  addon_prefs.screen_text_scale
 
 					if (addon_prefs.screen_text_length >= 0):
