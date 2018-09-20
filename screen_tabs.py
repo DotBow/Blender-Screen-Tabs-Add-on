@@ -22,7 +22,7 @@ bl_info = {
 	'name': 'Screen Tabs',
 	'description': 'Screen Tabs provide a more consistent and nice way to interact with screens in Info Header.',
 	'author': 'Oleg Stepanov',
-	'version': (1, 3, 1),
+	'version': (1, 3, 2),
 	'blender': (2, 79, 0),
 	'location': 'Info Header',
 	'wiki_url': 'https://blenderartists.org/t/screen-tabs-1-2-add-on-for-2-79-a-la-workspace-tabs-in-2-8/1117586',
