@@ -41,6 +41,7 @@ stats_icons = OrderedDict([
 	('Edges:', 'EDGESEL'),
 	('Faces:', 'FACESEL'),
 	('Tris:', 'MOD_TRIANGULATE'),
+	('Bones:', 'BONE_DATA'),
 	('Objects:', 'OUTLINER_OB_GROUP_INSTANCE'),
 	('Lamps:', 'LAMP_SUN'),
 	('Mem:', 'DISK_DRIVE')])
@@ -85,11 +86,28 @@ class ScreenTabsPrefs(AddonPreferences):
 		min = 0.5,
 		max = 1.0)
 
+	screen_text_length = IntProperty(
+		name = 'Screen Tab Text Length',
+		description = "Maximum number of characters to display per screen tab",
+		default = -1,
+		min = -1,)
+
+	screen_text_scale = FloatProperty(
+		name = 'Screen Tab Text Scale',
+		description = "Maximum scale of per screen tab",
+		default = 100,
+		subtype = 'PERCENTAGE',
+		min = 0,
+		soft_min = 20,
+		soft_max = 200,)
+
 	def draw(self, context):
 		layout = self.layout
 		layout.prop(self, 'menu_draw_type')
 		layout.prop(self, 'stats_draw_type')
 		layout.prop(self, 'scene_block_width')
+		layout.prop(self, 'screen_text_length')
+		layout.prop(self, 'screen_text_scale')
 
 
 class TabProps(bpy.types.PropertyGroup):
@@ -285,6 +303,13 @@ class INFO_HT_header(Header):
 					row.operator('scene.add_tab', text = '', icon='ZOOMIN')
 					row.alert = False
 				else:
+					if (addon_prefs.screen_text_length == 0 and icon == 'NONE'):
+						icon = 'BLANK1'
+					row.scale_x = addon_prefs.screen_text_scale * 0.01
+
+					if (addon_prefs.screen_text_length >= 0):
+						name = name[0 : addon_prefs.screen_text_length]
+
 					if is_active:
 						row.prop(scene, 'active_tab', text = name, icon = icon, toggle = True)
 					else:
