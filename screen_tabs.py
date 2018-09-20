@@ -80,34 +80,56 @@ class ScreenTabsPrefs(AddonPreferences):
 		name = 'Statistics Draw Type',
 		default = 'ICONS')
 
+	tab_draw_type = EnumProperty(
+		items = (('TEXT', 'Text', '', 0),
+				 ('ICONS', 'Icons', '', 1)),
+		name = 'Tab Draw Type',
+		default = 'TEXT')
+
 	scene_block_width = FloatProperty(
 		name = 'Scene Block Width',
-		default = 0.8,
-		min = 0.5,
-		max = 1.0)
+		default = 80,
+		subtype = 'PERCENTAGE',
+		min = 20,
+		max = 200)
 
-	screen_text_length = IntProperty(
-		name = 'Screen Tab Text Length',
-		description = "Maximum number of characters to display per screen tab",
-		default = -1,
-		min = -1,)
+	tab_name_length = IntProperty(
+		name = 'Tab Name Length',
+		default = 1,
+		min = 1)
 
-	screen_text_scale = FloatProperty(
-		name = 'Screen Tab Text Scale',
-		description = "Maximum scale of per screen tab",
+	tab_width = FloatProperty(
+		name = 'Tab Width',
 		default = 100,
 		subtype = 'PERCENTAGE',
-		min = 0,
-		soft_min = 20,
-		soft_max = 200,)
+		min = 20,
+		max = 200)
+
+	trim_tab_names = BoolProperty(
+		name = 'Trim Tab Names',
+		default = False)
 
 	def draw(self, context):
 		layout = self.layout
-		layout.prop(self, 'menu_draw_type')
-		layout.prop(self, 'stats_draw_type')
-		layout.prop(self, 'scene_block_width')
-		layout.prop(self, 'screen_text_length')
-		layout.prop(self, 'screen_text_scale')
+		column = layout.column()
+
+		column.prop(self, 'menu_draw_type')
+		column.prop(self, 'stats_draw_type')
+		column.prop(self, 'tab_draw_type')
+
+		if self.tab_draw_type == 'TEXT':
+			column.separator()
+			column.prop(self, 'trim_tab_names')
+			sub_column = column.column()
+
+			if not self.trim_tab_names:
+				sub_column.active = False
+
+			sub_column.prop(self, 'tab_name_length')
+
+		column.separator()
+		column.prop(self, 'scene_block_width')
+		column.prop(self, 'tab_width')
 
 
 class TabProps(bpy.types.PropertyGroup):
@@ -264,7 +286,7 @@ class INFO_HT_header(Header):
 		else:
 			#layout.template_ID(context.window, 'screen', new='screen.new', unlink='screen.delete')
 			row = layout.row()
-			row.scale_x = addon_prefs.scene_block_width
+			row.scale_x = addon_prefs.scene_block_width * 0.01
 			row.template_ID(context.screen, 'scene', new = 'scene.new', unlink = 'scene.delete')
 
 			### Draw tabs ###
@@ -303,17 +325,23 @@ class INFO_HT_header(Header):
 					row.operator('scene.add_tab', text = '', icon='ZOOMIN')
 					row.alert = False
 				else:
-					if (addon_prefs.screen_text_length == 0 and icon == 'NONE'):
-						icon = 'BLANK1'
-					row.scale_x = addon_prefs.screen_text_scale * 0.01
+					display_name = name
 
-					if (addon_prefs.screen_text_length >= 0):
-						name = name[0 : addon_prefs.screen_text_length]
+					if addon_prefs.tab_draw_type == 'ICONS':
+						display_name = ''
+
+						if icon == 'NONE':
+							icon = 'ERROR'
+					else:
+						if (addon_prefs.trim_tab_names):
+							display_name = name[0 : addon_prefs.tab_name_length]
+
+					row.scale_x = addon_prefs.tab_width * 0.01
 
 					if is_active:
-						row.prop(scene, 'active_tab', text = name, icon = icon, toggle = True)
+						row.prop(scene, 'active_tab', text = display_name, icon = icon, toggle = True)
 					else:
-						row.operator('scene.set_tab', text = name, icon = icon).name = name
+						row.operator('scene.set_tab', text = display_name, icon = icon).name = name
 
 		### Draw render engine ###
 		layout.separator()
