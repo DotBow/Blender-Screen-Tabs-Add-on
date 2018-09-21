@@ -23,6 +23,9 @@ Tips:
  - Tab highlight color references to the **Inner Selected** color of **Regular** section in **User Interface** area of **Theme**
  - Supports Blender 2.79+
 
+Compatibility:
+ - [Download](http://bit.ly/2QTMhuq) updated GoB ZBrush Import Export add-on for compatibility with Screen Tabs
+
 I would appreciate any feedback:
  - [Blenderartists topic](http://bit.ly/Blenderartists-Screen-Tabs-Add-on)
  - stepanovoleg.dev@gmail.com
