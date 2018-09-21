@@ -1,5 +1,7 @@
 # Blender-Screen-Tabs-Add-on
 
+![Blender Screen Tabs add-on Gumroad cover](https://i.imgur.com/ND3tYkg.png)
+
 **Screen Tabs** is a modification of the **Info Editor** header area which provide a more consistent and nice way to interact with screens in Blender.
 It is inspired by the new workspace tabs in 2.8 as well as by desire of finding ways to improve current UI.
 
