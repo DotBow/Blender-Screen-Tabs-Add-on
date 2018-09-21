@@ -384,7 +384,7 @@ class INFO_HT_header(Header):
 					i += 1
 					continue
 
-				row.prop(scene, 'stat_flags', index = 7, text = 'Object Name', icon = 'OBJECT_DATA')
+				row.prop(scene, 'stat_flags', index = 8, text = 'Object Name', icon = 'OBJECT_DATA')
 			else:
 				for key, val in stats_icons.items():
 					stat_value = get_stat_value(key, stats)
@@ -399,7 +399,7 @@ class INFO_HT_header(Header):
 
 				active = scene.objects.active
 
-				if active and scene.stat_flags[7]:
+				if active and scene.stat_flags[8]:
 					row.label(active.name, icon = object_type_icons.get(active.type))
 
 
@@ -584,8 +584,8 @@ def register():
 		options = {'TEXTEDIT_UPDATE'})
 
 	bpy.types.Scene.stat_flags = BoolVectorProperty(
-		size = 8,
-		default = (True, True, True, True, True, True, True, True))
+		size = 9,
+		default = (True, True, True, True, True, True, True, True, True))
 
 	bpy.types.Scene.active_tab = BoolProperty(
 		default = True,
