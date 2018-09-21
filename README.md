@@ -29,3 +29,5 @@ Compatibility:
 I would appreciate any feedback:
  - [Blenderartists topic](http://bit.ly/Blenderartists-Screen-Tabs-Add-on)
  - stepanovoleg.dev@gmail.com
+
+You can support me via [Gumroad](https://gum.co/GvjDu)!
