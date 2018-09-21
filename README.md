@@ -13,7 +13,7 @@ Features:
  - Refactored buttons for more space
 
 Install it like a regular Blender add-on:
- 1. Click **Install Add-on from File** in **Add-ons** section of **User Preferences** and select screen_tabs.py
+ 1. Click **Install Add-on from File** in **Add-ons** section of **User Preferences** and select **screen_tabs.py**
  2. Enable **Screen Tabs** add-on in **UI** category
 
 Tips:
