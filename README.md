@@ -1,4 +1,4 @@
-# Blender-Screen-Tabs-Add-on
+# Blender Screen Tabs Add-on
 
 ![Blender Screen Tabs add-on Gumroad cover](https://i.imgur.com/ND3tYkg.png)
 
